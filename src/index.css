@@ -1411,225 +1411,52 @@ a { color: inherit; text-decoration: none; }
    REGISTER PAGE
    ══════════════════════════════════════════════════════════════════ */
 
-.reg { min-height: 100svh; background: var(--bg); }
-.reg__wrap { max-width: 900px; margin: 0 auto; padding: clamp(40px, 7vh, 72px) var(--gutter) 100px; }
-
-/* ─── Form grid ──────────────────────────────────────────────────── */
-
-.form {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 22px;
-}
-@media (min-width: 680px) {
-  .form { grid-template-columns: 1fr 1fr; gap: 24px 20px; }
-  .form__cell--full { grid-column: 1 / -1; }
-}
-
-.form__foot {
+/* The form is the whole page: a column of nav + frame, exactly one
+   viewport tall. The frame takes every pixel the nav leaves, so the form
+   scrolls inside itself and the page never scrolls. */
+.reg {
+  height: 100svh;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  align-items: stretch;
-  margin-top: 8px;
-}
-.form__submit {
-  width: 100%;
-  justify-content: center;
-  padding: 18px 28px;
-  border: 0;
-  cursor: pointer;
-  font: inherit;
-}
-.form__submit:disabled { opacity: 0.55; cursor: progress; }
-
-/* ─── Field chrome ───────────────────────────────────────────────── */
-
-.field { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
-
-.field__label {
-  display: flex;
-  align-items: baseline;
-  gap: 7px;
-  font-family: var(--font-mono);
-  font-size: 9.5px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-.field__label i { font-style: normal; color: var(--brand); }
-.field__label em {
-  font-style: normal;
-  margin-left: auto;
-  font-size: 8.5px;
-  letter-spacing: 0.14em;
-  color: var(--text-faint);
-}
-
-.field__input {
-  width: 100%;
-  padding: 14px 15px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 0;
-  color: var(--text);
-  font-family: var(--font-body);
-  font-size: 15px;
-  transition: border-color 0.22s var(--ease), background 0.22s var(--ease);
-}
-.field__input::placeholder { color: var(--text-faint); }
-.field__input:hover { border-color: var(--border-strong); }
-.field__input:focus {
-  outline: none;
-  border-color: var(--brand);
-  background: var(--bg3);
-}
-.field.has-error .field__input { border-color: #FF4F4F; }
-
-.field__msg {
-  font-family: var(--font-mono);
-  font-size: 9.5px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-faint);
-}
-.field__msg--error { color: #FF4F4F; }
-
-/* ─── Combobox ───────────────────────────────────────────────────── */
-
-.combo { position: relative; }
-.combo__input { padding-right: 38px; cursor: pointer; text-overflow: ellipsis; }
-.combo__input:read-only { cursor: pointer; }
-
-.combo__caret {
-  position: absolute;
-  top: 50%;
-  right: 14px;
-  translate: 0 -50%;
-  color: var(--text-muted);
-  pointer-events: none;
-  transition: rotate 0.25s var(--ease), color 0.25s var(--ease);
-}
-.combo.is-open .combo__caret { rotate: 180deg; color: var(--brand); }
-
-.combo__list {
-  position: absolute;
-  z-index: 40;
-  top: calc(100% + 4px);
-  left: 0;
-  right: 0;
-  max-height: 264px;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  background: #070C0C;
-  border: 1px solid var(--border-strong);
-  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.95);
-}
-
-.combo__opt {
-  padding: 11px 15px;
-  font-size: 14px;
-  line-height: 1.35;
-  color: var(--text-muted);
-  cursor: pointer;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-}
-.combo__opt:last-child { border-bottom: 0; }
-.combo__opt.is-active { background: var(--brand-dim); color: var(--text); }
-.combo__opt.is-selected { color: var(--brand-bright); }
-
-.combo__empty {
-  padding: 14px 15px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--text-faint);
-}
-
-/* ─── File drop ──────────────────────────────────────────────────── */
-
-.drop {
-  border: 1px dashed var(--border-strong);
-  background: var(--bg-card);
-  transition: border-color 0.22s var(--ease), background 0.22s var(--ease);
-}
-.drop.is-dragging { border-color: var(--brand); background: var(--brand-dim); }
-.drop.has-file { border-style: solid; }
-.field.has-error .drop { border-color: #FF4F4F; }
-
-.drop__empty {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 24px 16px;
-  cursor: pointer;
-  font-size: 14px;
-  color: var(--text-muted);
-  text-align: center;
-}
-.drop__empty svg { color: var(--brand); flex: none; }
-.drop__empty b { color: var(--brand-bright); font-weight: 500; }
-
-.drop__file {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 15px;
-  min-width: 0;
-}
-.drop__file > svg { color: var(--brand); flex: none; }
-.drop__name {
-  flex: 1;
-  min-width: 0;
+  background: var(--bg);
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 14px;
-  color: var(--text);
 }
-.drop__size {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  color: var(--text-faint);
+
+/* The shared .nav is fixed, which would take it out of flow and let the
+   frame slide under it. Here it is a plain flex item instead. */
+.reg__nav {
+  position: relative;
   flex: none;
 }
-.drop__clear {
-  display: grid;
-  place-items: center;
-  width: 26px;
-  height: 26px;
-  flex: none;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: color 0.2s var(--ease), border-color 0.2s var(--ease);
+
+.reg__frame {
+  flex: 1;
+  min-height: 0; /* lets the frame shrink inside the flex column */
+  position: relative;
+  background: var(--bg-card);
 }
-.drop__clear:hover { color: #FF4F4F; border-color: #FF4F4F; }
 
-/* ─── Success state ──────────────────────────────────────────────── */
+.reg__frame iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  transition: opacity 0.4s var(--ease);
+}
 
-.reg__done {
+.reg__loading {
+  position: absolute;
+  inset: 0;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  text-align: center;
-  gap: 18px;
-  padding: clamp(32px, 8vh, 80px) 0;
+  justify-content: center;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-faint);
 }
-.reg__tick {
-  display: grid;
-  place-items: center;
-  width: 68px;
-  height: 68px;
-  border: 1px solid var(--brand);
-  background: var(--brand-dim);
-  color: var(--brand-bright);
-}
-
 /* ══════════════════════════════════════════════════════════════════
    REDUCED MOTION
    ══════════════════════════════════════════════════════════════════ */
